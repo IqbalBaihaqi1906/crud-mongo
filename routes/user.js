@@ -20,7 +20,25 @@ userRoute.post("/users",async (req,res) => {
             message : "user created",
             detail : newUser
         })
-        
+
+    } catch (error) {
+        res.json({
+            message : error.message
+        })
+    }
+})
+
+userRoute.patch('/users/:id',async (req,res) => {
+    try {
+        const userUpdate = await User.updateOne({_id:req.params.id}, {
+            name : req.body.name,
+            address : req.body.address
+        })
+
+        res.status(200).json({
+            message : "Santri Updated",
+            detail : userUpdate
+        })
     } catch (error) {
         res.json({
             message : error.message
