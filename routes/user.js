@@ -10,11 +10,18 @@ userRoute.get("/users",async (req,res) => {
 
 userRoute.post("/users",async (req,res) => {
     try {
-        const Userpost = new User({
+        // const Userpost = new User({
+        //     name : req.body.name,
+        //     address : req.body.address
+        // })
+        // const newUser = await Userpost.save()
+
+        const payload = {
             name : req.body.name,
             address : req.body.address
-        })
-        const newUser = await Userpost.save()
+        }
+
+        const newUser = await User.create(payload)
 
         res.status(201).json({
             message : "user created",
@@ -37,6 +44,21 @@ userRoute.patch('/users/:id',async (req,res) => {
 
         res.status(200).json({
             message : "Santri Updated",
+            detail : userUpdate
+        })
+    } catch (error) {
+        res.json({
+            message : error.message
+        })
+    }
+})
+
+userRoute.delete('/users/:id',async (req,res) => {
+    try {
+        const userUpdate = await User.deleteOne({_id:req.params.id})
+
+        res.status(200).json({
+            message : "Santri Deleted",
             detail : userUpdate
         })
     } catch (error) {
